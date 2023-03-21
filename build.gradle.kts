@@ -14,6 +14,8 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    runtimeOnly("io.github.microutils:kotlin-logging-jvm:3.0.5")
+    testImplementation("org.slf4j:slf4j-simple:2.0.7")
 }
 
 tasks.test {
