@@ -4,7 +4,6 @@ import java.lang.System.exit
 private val logger = KotlinLogging.logger {}
 
 
-
 fun main(args: Array<String>) {
     runMenu()
 }
