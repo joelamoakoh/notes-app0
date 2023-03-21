@@ -107,6 +107,12 @@ class NoteAPI {
             } else {
                 "${numberOfNotesByPriority(priority)} notes with priority $priority: $listOfNotes"
             }
+
         }
+    }
+    fun deleteNote(indexToDelete: Int): Note? {
+        return if (isValidListIndex(indexToDelete, notes)) {
+            notes.removeAt(indexToDelete)
+        } else null
     }
 }
