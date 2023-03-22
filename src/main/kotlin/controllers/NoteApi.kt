@@ -32,29 +32,20 @@ class NoteAPI (serializerType: Serializer) {
         return (index >= 0 && index < list.size)
     }
     fun listActiveNotes(): String =
-        if (numberOfActiveNotes() == 0) "NO ACTIVE NOTES STORED"
+        if (numberOfActiveNotes() == 0) "No active notes stored"
         else formatListString(notes.filter { note -> !note.isNoteArchived })
 
+    fun listArchivedNotes(): String =
+        if (numberOfArchivedNotes() == 0) "No archived notes stored"
+        else formatListString(notes.filter { note -> note.isNoteArchived })
 
-    private fun formatListString(notesToFormat: List<Note>): String =   //use of function to stop repitition
+    private fun formatListString(notesToFormat: List<Note>): String =
         notesToFormat
             .joinToString(separator = "\n") { note ->
                 notes.indexOf(note).toString() + " " + note.toString()
             }
 
-    fun listArchivedNotes(): String {
-        return if (numberOfArchivedNotes() == 0) {
-            "NO ARCHIVED NOTES STORED"
-        } else {
-            var listOfArchivedNotes = ""
-            for (note in notes) {
-                if (note.isNoteArchived) {
-                    listOfArchivedNotes += "${notes.indexOf(note)}: $note \n"
-                }
-            }
-            listOfArchivedNotes
-        }
-    }
+
 
     fun numberOfActiveNotes(): Int = notes.count { note: Note -> !note.isNoteArchived }
 
@@ -125,4 +116,7 @@ class NoteAPI (serializerType: Serializer) {
         return false
     }
 
+    fun searchByTitle(searchString: String) =
+        formatListString(
+            notes.filter { note -> note.noteTitle.contains(searchString, ignoreCase = true ) })
 }
