@@ -1,4 +1,4 @@
-
+/*
 import java.io.File
 import kotlin.Throws
 import com.thoughtworks.xstream.XStream
@@ -25,6 +25,6 @@ class YAMLSerializer(private val file: File) : Serializer {
         outputStream.close()
     }
 
-
+*/
 
 

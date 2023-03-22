@@ -27,10 +27,11 @@ class NoteAPI (serializerType: Serializer) {
         } else null
     }
 
-    //utility method to determine if an index is valid in a list.
+    //This is a method to check if the number inputed is valid in the list
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
+
     fun listActiveNotes(): String =
         if (numberOfActiveNotes() == 0) "No active notes stored"
         else formatListString(notes.filter { note -> !note.isNoteArchived })
@@ -80,8 +81,9 @@ class NoteAPI (serializerType: Serializer) {
         } else null
     }
     fun updateNote(indexToUpdate: Int, note: Note?): Boolean {
+        //Find the note by number
         val foundNote = findNote(indexToUpdate)
-
+       //If only if the note exists in the program, it is passed through and updated
         if ((foundNote != null) && (note != null)) {
             foundNote.noteTitle = note.noteTitle
             foundNote.notePriority = note.notePriority
