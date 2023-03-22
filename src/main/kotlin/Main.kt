@@ -84,7 +84,7 @@ fun listNotes() {
         when (option) {
             1 -> listAllNotes();
             2 -> listActiveNotes();
-            3 -> listArchivedNotes();
+            3 -> listArchivedNote();
             else -> println("Invalid option entered: " + option);
         }
     } else {
@@ -170,7 +170,7 @@ fun listAllNotes() {
     println(noteAPI.listAllNotes())
 }
 
-fun listArchivedNotes() {
+fun listArchivedNote() {
     println(noteAPI.listArchivedNotes())
 }
 
