@@ -6,4 +6,5 @@ interface Serializer {
 
     @Throws(Exception::class)
     fun read(): Any?
+
 }

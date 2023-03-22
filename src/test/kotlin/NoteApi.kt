@@ -273,24 +273,46 @@ class NoteAPITest {
 
         @Test
         fun `saving and loading an loaded collection in XML doesn't loose data`() {
-            // Storing 3 notes to the notes.XML file.
+
             val storingNotes = NoteAPI(XMLSerializer(File("notes.xml")))
             storingNotes.add(testApp!!)
             storingNotes.add(swim!!)
             storingNotes.add(summerHoliday!!)
             storingNotes.store()
 
-            //Loading notes.xml into a different collection
+
             val loadedNotes = NoteAPI(XMLSerializer(File("notes.xml")))
             loadedNotes.load()
 
-            //Comparing the source of the notes (storingNotes) with the XML loaded notes (loadedNotes)
+
             assertEquals(3, storingNotes.numberOfNotes())
             assertEquals(3, loadedNotes.numberOfNotes())
             assertEquals(storingNotes.numberOfNotes(), loadedNotes.numberOfNotes())
             assertEquals(storingNotes.findNote(0), loadedNotes.findNote(0))
             assertEquals(storingNotes.findNote(1), loadedNotes.findNote(1))
             assertEquals(storingNotes.findNote(2), loadedNotes.findNote(2))
+        }
+    }
+    @Nested
+    inner class ArchiveNotes {
+        @Test
+        fun `archiving a note that does'nt exist returns false`(){
+            assertFalse(populatedNotes!!.archiveNote(6))
+            assertFalse(populatedNotes!!.archiveNote(-1))
+            assertFalse(emptyNotes!!.archiveNote(0))
+        }
+
+        @Test
+        fun `archiving an already archived note returns false`(){
+            assertTrue(populatedNotes!!.findNote(2)!!.isNoteArchived)
+            assertFalse(populatedNotes!!.archiveNote(2))
+        }
+
+        @Test
+        fun `archiving an active note that exists returns true and archives`() {
+            assertFalse(populatedNotes!!.findNote(1)!!.isNoteArchived)
+            assertTrue(populatedNotes!!.archiveNote(1))
+            assertTrue(populatedNotes!!.findNote(1)!!.isNoteArchived)
         }
     }
 

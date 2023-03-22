@@ -29,9 +29,10 @@ fun mainMenu() : Int {
          > |   2) List all notes            |
          > |   3) Update a note             |
          > |   4) Delete a note             |
-         > |   5) Save a note               |
-         > |   6) Load a note               |
-         > ----------------------------------
+         > |   5) Archive a note
+         > > ----------------------------------
+         > |   20) Save a note               |
+         > |   21) Load a note               |
          > |   0) Exit                      |
          > ----------------------------------
          > ==>> """.trimMargin(">"))
@@ -46,8 +47,9 @@ fun runMenu() {
             2  -> listNotes()
             3  -> updateNote()
             4  -> deleteNote()
-            5  -> save()
-            6  -> load()
+            5  -> archiveNote()
+            20  -> save()
+            21 -> load()
             0  -> exitApp()
             else -> println("Invalid option entered:  ${option}")
         }
@@ -68,10 +70,28 @@ fun addNote(){
 }
 
 
-fun listNotes(){
-    logger.info { "listNotes() function invoked" }
-    println(noteAPI.listAllNotes())
+fun listNotes() {
+    if (noteAPI.numberOfNotes() > 0) {
+        val option = readNextInt(
+            """
+                  > --------------------------------
+                  > |   1) View ALL notes          |
+                  > |   2) View ACTIVE notes       |
+                  > |   3) View ARCHIVED notes     |
+                  > --------------------------------
+         > ==>> """.trimMargin(">"))
+
+        when (option) {
+            1 -> listAllNotes();
+            2 -> listActiveNotes();
+            3 -> listArchivedNotes();
+            else -> println("Invalid option entered: " + option);
+        }
+    } else {
+        println("Option Invalid - No notes stored");
+    }
 }
+
 
 
 fun updateNote() {
@@ -131,4 +151,27 @@ fun load() {
         System.err.println("Error reading from file: $e")
     }
 }
+fun listActiveNotes(){
+    println(noteAPI.listActiveNotes())
+}
+
+fun archiveNote() {
+    listActiveNotes()
+    if (noteAPI.numberOfActiveNotes() > 0) {
+        val indexToArchive = readNextInt("Enter the index of the note to archive: ")
+        if (noteAPI.archiveNote(indexToArchive)) {
+            println("Archive Successful!")
+        } else {
+            println("Archive NOT Successful")
+        }
+    }
+}
+fun listAllNotes() {
+    println(noteAPI.listAllNotes())
+}
+
+fun listArchivedNotes() {
+    println(noteAPI.listArchivedNotes())
+}
+
 
